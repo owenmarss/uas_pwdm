@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bookNav"
+        android:icon="@drawable/baseline_menu_book_24"
+        android:title="Book" />
+
+    <item
+        android:id="@+id/borrowNav"
+        android:icon="@drawable/baseline_shopping_bag_24"
+        android:title="Borrow" />
+
+    <item
+        android:id="@+id/memberNav"
+        android:icon="@drawable/baseline_groups_24"
+        android:title="Member" />
+</menu>
