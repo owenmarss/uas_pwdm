@@ -59,7 +59,6 @@ public class BookAdapter extends BaseAdapter {
             penulis.setText(data.getPenulis());
             tahun.setText(data.getTahun());
         }
-
         return convertView;
     }
 }

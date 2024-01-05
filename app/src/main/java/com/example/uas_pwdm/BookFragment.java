@@ -1,5 +1,7 @@
 package com.example.uas_pwdm;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -19,6 +22,7 @@ import com.example.uas_pwdm.helper.BookHelper;
 import com.example.uas_pwdm.model.BookData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -88,17 +92,72 @@ public class BookFragment extends Fragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditorBookFragment editorBookFragment = new EditorBookFragment();
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.container, editorBookFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+//                EditorBookFragment editorBookFragment = new EditorBookFragment();
+//                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+//                transaction.replace(R.id.container, editorBookFragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+
+                Intent intent = new Intent(requireContext(), EditorBookActivity.class);
+                startActivity(intent);
             }
         });
         listView = view.findViewById(R.id.list_item);
         adapter = new BookAdapter(getActivity(), lists);
         listView.setAdapter(adapter);
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final String id = lists.get(i).getId();
+                final String judulBuku = lists.get(i).getJudul();
+                final String penulis = lists.get(i).getPenulis();
+                final String tahunTerbit = lists.get(i).getTahun();
+                final CharSequence[] dialogueItem = {"Edit", "Hapus"};
+                dialog = new AlertDialog.Builder(requireContext());
+                dialog.setItems(dialogueItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+                                Intent intent = new Intent(requireContext(), EditorBookActivity.class);
+                                intent.putExtra("id", id);
+                                intent.putExtra("judulBuku", judulBuku);
+                                intent.putExtra("penulis", penulis);
+                                intent.putExtra("tahunTerbit", tahunTerbit);
+                                startActivity(intent);
+                                break;
+                            case 1:
+                                db.delete(Integer.parseInt(id));
+                                lists.clear();
+                                // Panggil Data Ulang
+                                getData();
+                                break;
+                        }
+                    }
+                }).show();
+                return false;
+            }
+        });
+        getData();
         return view;
+    }
+
+    private void getData() {
+        ArrayList<HashMap<String, String>> rows = db.getAllBooks();
+        for(int i = 0; i < rows.size(); i++) {
+            String id = rows.get(i).get("id");
+            String judulBuku = rows.get(i).get("judul");
+            String penulis = rows.get(i).get("penulis");
+            String tahunTerbit = rows.get(i).get("tahun");
+
+            BookData data = new BookData();
+            data.setId(id);
+            data.setJudul(judulBuku);
+            data.setPenulis(penulis);
+            data.setTahun(tahunTerbit);
+            lists.add(data);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

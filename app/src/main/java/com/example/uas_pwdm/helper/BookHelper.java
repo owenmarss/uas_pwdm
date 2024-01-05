@@ -19,7 +19,7 @@ public class BookHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String SQL_CREATE_TABLE = "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, judul TEXT, penulis TEXT, tahun INTEGER);";
+        final String SQL_CREATE_TABLE = "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, judul TEXT, penulis TEXT, tahun TEXT);";
         db.execSQL(SQL_CREATE_TABLE);
     }
 
@@ -51,14 +51,14 @@ public class BookHelper extends SQLiteOpenHelper {
     }
 
     // QUERY untuk INSERT
-    public void insert(String judul, String penulis, int tahun){
+    public void insert(String judul, String penulis, String tahun){
         SQLiteDatabase db = this.getWritableDatabase();
         String QUERY = "INSERT INTO books (judul, penulis, tahun) VALUES ('"+judul+"', '"+penulis+"', "+tahun+");";
         db.execSQL(QUERY);
     }
 
     // QUERY untuk UPDATE
-    public void update(int id, String judul, String penulis, int tahun){
+    public void update(int id, String judul, String penulis, String tahun){
         SQLiteDatabase db = this.getWritableDatabase();
         String QUERY = "UPDATE books SET judul = '"+judul+"', penulis = '"+penulis+"', tahun = "+tahun+" WHERE id = "+id+";";
         db.execSQL(QUERY);
