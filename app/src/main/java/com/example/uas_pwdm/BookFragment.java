@@ -160,4 +160,11 @@ public class BookFragment extends Fragment {
         }
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        lists.clear();
+        getData();
+    }
 }

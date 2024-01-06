@@ -25,6 +25,7 @@ public class EditorBookActivity extends AppCompatActivity {
         editJudulBuku = findViewById(R.id.input_judulBuku);
         editPenulis = findViewById(R.id.input_penulis);
         editTahunTerbit = findViewById(R.id.input_tahunTerbit);
+        btnSave = findViewById(R.id.button_save);
 
         id = getIntent().getStringExtra("id");
         judulBuku = getIntent().getStringExtra("judulBuku");
@@ -44,9 +45,9 @@ public class EditorBookActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     if(id == null || id.equals("")) {
-
+                        save();
                     } else {
-
+                        edit();
                     }
                 } catch (Exception e) {
                     Log.e("Saving", e.getMessage());
