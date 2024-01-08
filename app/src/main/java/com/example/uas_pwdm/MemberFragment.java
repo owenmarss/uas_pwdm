@@ -1,12 +1,28 @@
 package com.example.uas_pwdm;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+
+import com.example.uas_pwdm.adapter.BookAdapter;
+import com.example.uas_pwdm.adapter.MemberAdapter;
+import com.example.uas_pwdm.helper.Helper;
+import com.example.uas_pwdm.model.BookData;
+import com.example.uas_pwdm.model.MemberData;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +62,13 @@ public class MemberFragment extends Fragment {
         return fragment;
     }
 
+    ListView listView;
+    AlertDialog.Builder dialog;
+    List<MemberData> lists = new ArrayList<>();
+    MemberAdapter adapter;
+    Helper db;
+    Button btnAdd;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +79,87 @@ public class MemberFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_member, container, false);
+        View view = inflater.inflate(R.layout.fragment_member, container, false);
+
+        db = new Helper(requireContext());
+        btnAdd = view.findViewById(R.id.btn_add);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), EditorMemberActivity.class);
+                startActivity(intent);
+            }
+        });
+        listView = view.findViewById(R.id.list_member);
+        adapter = new MemberAdapter(getActivity(), lists);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final String id = lists.get(i).getId();
+                final String nama = lists.get(i).getNama();
+                final String no_telp = lists.get(i).getNo_telp();
+                final String email = lists.get(i).getEmail();
+                final String alamat = lists.get(i).getAlamat();
+                final CharSequence[] dialogueItem = {"Edit", "Hapus"};
+                dialog = new AlertDialog.Builder(requireContext());
+                dialog.setItems(dialogueItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+                                Intent intent = new Intent(requireContext(), EditorMemberActivity.class);
+                                intent.putExtra("id", id);
+                                intent.putExtra("nama", nama);
+                                intent.putExtra("no_telp", no_telp);
+                                intent.putExtra("email", email);
+                                intent.putExtra("alamat", alamat);
+                                startActivity(intent);
+                                break;
+                            case 1:
+                                db.deleteMembers(Integer.parseInt(id));
+                                lists.clear();
+                                // Panggil Data Ulang
+                                getData();
+                                break;
+                        }
+                    }
+                }).show();
+                return false;
+            }
+        });
+        getData();
+        return view;
+    }
+
+    private void getData() {
+        ArrayList<HashMap<String, String>> rows = db.getAllMembers();
+        for(int i = 0; i < rows.size(); i++) {
+            String id = rows.get(i).get("id");
+            String nama = rows.get(i).get("nama");
+            String no_telp = rows.get(i).get("no_telp");
+            String email = rows.get(i).get("email");
+            String alamat = rows.get(i).get("alamat");
+
+            MemberData data = new MemberData();
+            data.setId(id);
+            data.setNama(nama);
+            data.setNo_telp(no_telp);
+            data.setEmail(email);
+            data.setAlamat(alamat);
+            lists.add(data);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        lists.clear();
+        getData();
     }
 }

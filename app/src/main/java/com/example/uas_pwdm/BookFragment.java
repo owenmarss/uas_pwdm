@@ -6,19 +6,17 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.uas_pwdm.adapter.BookAdapter;
-import com.example.uas_pwdm.helper.BookHelper;
+import com.example.uas_pwdm.helper.Helper;
 import com.example.uas_pwdm.model.BookData;
 
 import java.util.ArrayList;
@@ -69,7 +67,7 @@ public class BookFragment extends Fragment {
     AlertDialog.Builder dialog;
     List<BookData> lists = new ArrayList<>();
     BookAdapter adapter;
-    BookHelper db;
+    Helper db;
     Button btnAdd;
 
     @Override
@@ -87,17 +85,11 @@ public class BookFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book, container, false);
 
-        db  = new BookHelper(requireContext());
+        db  = new Helper(requireContext());
         btnAdd = view.findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                EditorBookFragment editorBookFragment = new EditorBookFragment();
-//                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-//                transaction.replace(R.id.container, editorBookFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
-
                 Intent intent = new Intent(requireContext(), EditorBookActivity.class);
                 startActivity(intent);
             }
@@ -128,7 +120,7 @@ public class BookFragment extends Fragment {
                                 startActivity(intent);
                                 break;
                             case 1:
-                                db.delete(Integer.parseInt(id));
+                                db.deleteBook(Integer.parseInt(id));
                                 lists.clear();
                                 // Panggil Data Ulang
                                 getData();

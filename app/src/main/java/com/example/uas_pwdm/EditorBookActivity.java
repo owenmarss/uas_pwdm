@@ -7,20 +7,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.uas_pwdm.helper.BookHelper;
+import com.example.uas_pwdm.helper.Helper;
 
 public class EditorBookActivity extends AppCompatActivity {
+    private TextView headlineBuku;
     private EditText editJudulBuku, editPenulis, editTahunTerbit;
     private Button btnSave;
-    private BookHelper db = new BookHelper(this);
+    private Helper db = new Helper(this);
     private String id, judulBuku, penulis, tahunTerbit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor_book);
+
+        headlineBuku = findViewById(R.id.txt_headline_bookEditor);
 
         editJudulBuku = findViewById(R.id.input_judulBuku);
         editPenulis = findViewById(R.id.input_penulis);
@@ -33,9 +37,9 @@ public class EditorBookActivity extends AppCompatActivity {
         tahunTerbit = getIntent().getStringExtra("tahunTerbit");
 
         if(id == null || id.equals("")) {
-            setTitle("Tambah Buku");
+            headlineBuku.setText("Tambah Buku");
         } else {
-            setTitle("Edit Buku");
+            headlineBuku.setText("Edit Buku");
             editJudulBuku.setText(judulBuku);
             editPenulis.setText(penulis);
             editTahunTerbit.setText(tahunTerbit);
@@ -60,7 +64,7 @@ public class EditorBookActivity extends AppCompatActivity {
         if(String.valueOf(editJudulBuku.getText()).equals("") || String.valueOf(editPenulis.getText()).equals("") || String.valueOf(editTahunTerbit.getText()).equals("")) {
             Toast.makeText(getApplicationContext(), "Silahkan isi semua data: ", Toast.LENGTH_SHORT).show();
         } else {
-            db.insert(editJudulBuku.getText().toString(), editPenulis.getText().toString(), editTahunTerbit.getText().toString());
+            db.insertBook(editJudulBuku.getText().toString(), editPenulis.getText().toString(), editTahunTerbit.getText().toString());
             finish();
         }
     }
@@ -69,7 +73,7 @@ public class EditorBookActivity extends AppCompatActivity {
         if (String.valueOf(editJudulBuku.getText()).equals("") || String.valueOf(editPenulis.getText()).equals("") || String.valueOf(editTahunTerbit.getText()).equals("")) {
             Toast.makeText(getApplicationContext(), "Silahkan isi semua data!", Toast.LENGTH_SHORT).show();
         } else {
-            db.update(Integer.parseInt(id), editJudulBuku.getText().toString(), editPenulis.getText().toString(), editTahunTerbit.getText().toString());
+            db.updateBook(Integer.parseInt(id), editJudulBuku.getText().toString(), editPenulis.getText().toString(), editTahunTerbit.getText().toString());
             finish();
         }
     }

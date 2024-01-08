@@ -1,6 +1,5 @@
 package com.example.uas_pwdm;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -14,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     BookFragment bookFragment = new BookFragment();
-    ActivityFragment activityFragment = new ActivityFragment();
+    BorrowFragment borrowFragment = new BorrowFragment();
     MemberFragment memberFragment = new MemberFragment();
 
     private static final int BOOK_NAV_ID = R.id.bookNav;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, bookFragment).commit();
                     return true;
                 } else if (itemId == BORROW_NAV_ID) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container, activityFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, borrowFragment).commit();
                     return true;
                 } else if (itemId == MEMBER_NAV_ID) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, memberFragment).commit();
