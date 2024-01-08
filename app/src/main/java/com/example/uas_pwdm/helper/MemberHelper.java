@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class MemberHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     static  final String DATABASE_NAME = "uaspwdm";
@@ -27,23 +28,23 @@ public class MemberHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-//    public ArrayList <HashMap<String,String>> getAllMembers() {
-//        ArrayList<HashMap<String,String>> list = new ArrayList<>();
-//        String QUERY = "SELECT * FROM members";
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        Cursor cursor = db.rawQuery(QUERY, null);
-//
-//        if (cursor.moveToFirst()) {
-//            do {
-//                HashMap <String, String> map = new HashMap<>();
-//                map.put("id", cursor getString(0));
-//                map.put("nama", cursor getString(1));
-//                // Give me no_telp
-//                map.put("email", cursor getString(3));
-//                map.put("alamat", cursor getString(4));
-//            } while (cursor.moveToNext());
-//        }
-//        cursor.close();
-//        return books;
-//    }
+    public ArrayList <HashMap<String,String>> getAllMembers() {
+        ArrayList<HashMap<String,String>> list = new ArrayList<>();
+        String QUERY = "SELECT * FROM members";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(QUERY, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                HashMap <String, String> map = new HashMap<>();
+                map.put("id", cursor getString(0));
+                map.put("nama", cursor getString(1));
+                // Give me no_telp
+                map.put("email", cursor getString(3));
+                map.put("alamat", cursor getString(4));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return members;
+    }
 }

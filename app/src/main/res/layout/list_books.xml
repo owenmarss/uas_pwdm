@@ -7,6 +7,9 @@
         android:id="@+id/txt_judul"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="16dp"
         android:text="Judul" />
 
     <TextView
@@ -21,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/txt_penulis"
+        android:layout_marginBottom="10dp"
         android:text="Tahun" />
 
 

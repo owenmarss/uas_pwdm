@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 
 public class BookHelper extends SQLiteOpenHelper {
-
     private static final int  DATABASE_VERSION = 1;
     static  final String DATABASE_NAME = "uaspwdm";
     public BookHelper(Context context){
