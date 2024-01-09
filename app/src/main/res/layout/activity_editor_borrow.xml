@@ -22,25 +22,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/txt_headline_bookEditor"
+        android:layout_below="@id/txt_headline_borrowEditor"
         android:text="Judul Buku: "/>
 
     <Spinner
-        android:layout_width=""
-        android:layout_height=""
+        android:id="@+id/spin_buku"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_judulBorrow"
+        android:entries="@array/judul_buku"/>
 
     <TextView
         android:id="@+id/txt_memberBorrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/input_judulBorrow"
+        android:layout_below="@+id/spin_buku"
         android:text="Nama peminjam: "/>
 
-    <EditText
-        android:id="@+id/input_memberBorrow"
-        android:layout_width="match_parent"
+    <Spinner
+        android:id="@+id/spin_member"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_memberBorrow"/>
+        android:layout_below="@id/txt_memberBorrow"/>
+
 
     <Button
         android:id="@+id/button_save"
@@ -48,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="40dp"
-        android:layout_below="@+id/input_memberBorrow"
+        android:layout_below="@+id/spin_member"
         android:text="Simpan" />
 
 </RelativeLayout>
