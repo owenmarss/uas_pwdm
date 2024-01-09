@@ -75,7 +75,7 @@ public class EditorMemberActivity extends AppCompatActivity {
         }
     }
 
-    private  void edit() {
+    private void edit() {
         if (String.valueOf(editNama.getText()).equals("") || String.valueOf(editNo_telp.getText()).equals("") || String.valueOf(editEmail.getText()).equals("") || String.valueOf(editAlamat.getText()).equals("")) {
             Toast.makeText(getApplicationContext(), "Silahkan isi semua data!", Toast.LENGTH_SHORT).show();
         } else {
