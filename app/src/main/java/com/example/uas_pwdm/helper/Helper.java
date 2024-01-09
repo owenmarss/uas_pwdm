@@ -20,15 +20,18 @@ public class Helper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_TABLE_BOOK = "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, judul TEXT, penulis TEXT, tahun TEXT);";
         final String SQL_CREATE_TABLE_MEMBER = "CREATE TABLE members (id INTEGER PRIMARY KEY AUTOINCREMENT, nama TEXT, no_telp TEXT, email TEXT, alamat TEXT);";
+        final String SQL_CREATE_TABLE_BORROW = "CREATE TABLE borrows (id INTEGER PRIMARY KEY AUTOINCREMENT, book_id INT, member_id INT, FOREIGN KEY (book_id) REFERENCES books(id), FOREIGN KEY (member_id) REFERENCES members(id));";
 
         db.execSQL(SQL_CREATE_TABLE_BOOK);
         db.execSQL(SQL_CREATE_TABLE_MEMBER);
+        db.execSQL(SQL_CREATE_TABLE_BORROW);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS books");
         db.execSQL("DROP TABLE IF EXISTS members");
+        db.execSQL("DROP TABLE IF EXISTS borrows");
         onCreate(db);
     }
 
@@ -113,6 +116,49 @@ public class Helper extends SQLiteOpenHelper {
     public void deleteMembers(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         String QUERY = "DELETE FROM members WHERE id = "+id;
+        db.execSQL(QUERY);
+    }
+
+
+//    QUERY untuk BORROWS
+    public ArrayList<HashMap<String,String>> getAllBorrows(){
+        ArrayList<HashMap<String,String>> list = new ArrayList<>();
+        String QUERY = "SELECT borrows.id AS borrow_id, books.judul, members.nama, members.no_telp, members.email FROM borrows JOIN books ON borrows.book_id = books.id JOIN members ON borrows.member_id = members.id;";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(QUERY, null);
+        if (cursor.moveToFirst()){
+            do {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("id", cursor.getString(0));
+                map.put("judul", cursor.getString(1));
+                map.put("nama", cursor.getString(2));
+                map.put("telp", cursor.getString(3));
+                map.put("email", cursor.getString(4));
+                list.add(map);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    // QUERY untuk INSERT BORROW
+    public void insertBorrow(int book, int member){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String QUERY = "INSERT INTO borrows (book_id, member_id) VALUES (book, member);";
+        db.execSQL(QUERY);
+    }
+
+    // QUERY untuk UPDATE BORROW
+    public void updateBorrow(int id, int book, int member){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String QUERY = "UPDATE borrows SET book_id = '"+book+"', member_id = '"+member+"' WHERE id = "+id+";";
+        db.execSQL(QUERY);
+    }
+
+    //QUERY untuk DELETE BORROW
+    public void deleteBorrow(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String QUERY = "DELETE FROM borrows WHERE id = "+id;
         db.execSQL(QUERY);
     }
 

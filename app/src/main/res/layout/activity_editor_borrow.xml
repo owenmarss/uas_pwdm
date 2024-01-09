@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    android:layout_marginHorizontal="20dp"
+    tools:context=".EditorBorrowActivity">
+
+    <TextView
+        android:id="@+id/txt_headline_borrowEditor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="26dp"
+        android:textStyle="bold"
+        android:text="Title" />
+
+    <TextView
+        android:id="@+id/txt_judulBorrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/txt_headline_bookEditor"
+        android:text="Judul Buku: "/>
+
+    <Spinner
+        android:layout_width=""
+        android:layout_height=""
+
+    <TextView
+        android:id="@+id/txt_memberBorrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/input_judulBorrow"
+        android:text="Nama peminjam: "/>
+
+    <EditText
+        android:id="@+id/input_memberBorrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_memberBorrow"/>
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/input_memberBorrow"
+        android:text="Simpan" />
+
+</RelativeLayout>
