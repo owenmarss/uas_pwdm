@@ -101,6 +101,8 @@ public class BorrowFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final String id = lists.get(i).getId();
+                final String book_id = lists.get(i).getBook_id();
+                final String member_id = lists.get(i).getMember_id();
                 final String judul = lists.get(i).getJudul();
                 final String nama = lists.get(i).getNama();
                 final String telp = lists.get(i).getTelp();
@@ -114,10 +116,12 @@ public class BorrowFragment extends Fragment {
                             case 0:
                                 Intent intent = new Intent(requireContext(), EditorBorrowActivity.class);
                                 intent.putExtra("id", id);
-                                intent.putExtra("judul", judul);
-                                intent.putExtra("nama", nama);
-                                intent.putExtra("telp", telp);
-                                intent.putExtra("email", email);
+                                intent.putExtra("book_id", book_id);
+                                intent.putExtra("member_id", member_id);
+//                                intent.putExtra("judul", judul);
+//                                intent.putExtra("nama", nama);
+//                                intent.putExtra("telp", telp);
+//                                intent.putExtra("email", email);
                                 startActivity(intent);
                                 break;
                             case 1:
@@ -140,6 +144,8 @@ public class BorrowFragment extends Fragment {
         ArrayList<HashMap<String, String>> rows = db.getAllBorrows();
         for(int i = 0; i < rows.size(); i++) {
             String id = rows.get(i).get("id");
+            String book_id = rows.get(i).get("book_id");
+            String member_id = rows.get(i).get("member_id");
             String judul = rows.get(i).get("judul");
             String nama = rows.get(i).get("nama");
             String telp = rows.get(i).get("telp");
@@ -147,6 +153,8 @@ public class BorrowFragment extends Fragment {
 
             BorrowData data = new BorrowData();
             data.setId(id);
+            data.setBook_id(book_id);
+            data.setMember_id(member_id);
             data.setJudul(judul);
             data.setNama(nama);
             data.setTelp(telp);

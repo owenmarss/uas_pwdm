@@ -1,32 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/txt_judul_borrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Judul"
-        android:id="@+id/txt_judul_borrow"/>
+        android:text="Judul" />
 
     <TextView
+        android:id="@+id/txt_id_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nama"
-        android:id="@+id/txt_nama_borrow"/>
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/txt_judul_borrow"
+        android:text="ID Buku" />
 
     <TextView
+        android:id="@+id/txt_nama_borrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No. Telp"
-        android:id="@+id/txt_telp_borrow"/>
+        android:layout_below="@+id/txt_judul_borrow"
+        android:text="Nama" />
 
     <TextView
+        android:id="@+id/txt_id_member"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email"
-        android:id="@+id/txt_email_borrow"/>
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/txt_nama_borrow"
+        android:layout_below="@+id/txt_judul_borrow"
+        android:text="ID Member" />
+
+    <TextView
+        android:id="@+id/txt_telp_borrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_nama_borrow"
+        android:text="No. Telp" />
+
+    <TextView
+        android:id="@+id/txt_email_borrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_telp_borrow"
+        android:text="Email" />
 
 
-</LinearLayout>
+</RelativeLayout>

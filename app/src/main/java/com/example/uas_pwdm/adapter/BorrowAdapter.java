@@ -50,11 +50,14 @@ public class BorrowAdapter extends BaseAdapter {
         }
         if (convertView != null){
             TextView judul = convertView.findViewById(R.id.txt_judul_borrow);
+            TextView id_book = convertView.findViewById(R.id.txt_id_book);
             TextView nama = convertView.findViewById(R.id.txt_nama_borrow);
+            TextView id_member = convertView.findViewById(R.id.txt_id_member);
             TextView telp = convertView.findViewById(R.id.txt_telp_borrow);
             TextView email = convertView.findViewById(R.id.txt_email_borrow);
             BorrowData data = lists.get(position);
             judul.setText(data.getJudul());
+            judul.setText(data.getBook_id());
             nama.setText(data.getNama());
             telp.setText(data.getTelp());
             email.setText(data.getEmail());

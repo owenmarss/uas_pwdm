@@ -123,17 +123,19 @@ public class Helper extends SQLiteOpenHelper {
 //    QUERY untuk BORROWS
     public ArrayList<HashMap<String,String>> getAllBorrows(){
         ArrayList<HashMap<String,String>> list = new ArrayList<>();
-        String QUERY = "SELECT borrows.id AS borrow_id, books.judul, members.nama, members.no_telp, members.email FROM borrows JOIN books ON borrows.book_id = books.id JOIN members ON borrows.member_id = members.id;";
+        String QUERY = "SELECT borrows.id, borrows.book_id, borrows.member_id, books.judul, members.nama, members.no_telp, members.email FROM borrows JOIN books ON borrows.book_id = books.id JOIN members ON borrows.member_id = members.id;";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(QUERY, null);
         if (cursor.moveToFirst()){
             do {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("id", cursor.getString(0));
-                map.put("judul", cursor.getString(1));
-                map.put("nama", cursor.getString(2));
-                map.put("telp", cursor.getString(3));
-                map.put("email", cursor.getString(4));
+                map.put("book_id", cursor.getString(1));
+                map.put("member_id", cursor.getString(2));
+                map.put("judul", cursor.getString(3));
+                map.put("nama", cursor.getString(4));
+                map.put("telp", cursor.getString(5));
+                map.put("email", cursor.getString(6));
                 list.add(map);
             } while (cursor.moveToNext());
         }
