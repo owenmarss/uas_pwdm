@@ -124,8 +124,13 @@ public class EditorBorrowActivity extends AppCompatActivity {
             members.add(new CustomItem(memberId, memberName));
         }
 
-        ArrayAdapter<CustomItem> bookAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, books);
-        ArrayAdapter<CustomItem> memberAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, members);
+        // Ini yang BERHASIL
+        ArrayAdapter<CharSequence> bookAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.judul_buku, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> memberAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.nama_member, android.R.layout.simple_spinner_item);
+
+        // Ini yang GAGAL
+        // ArrayAdapter<CustomItem> bookAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, books);
+        // ArrayAdapter<CustomItem> memberAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, members);
 
         bookAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         memberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

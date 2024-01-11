@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">uas_pwdm</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="judul_buku">
+        <item>Item 1</item>
+        <item>Item 1</item>
+        <item>Item 1</item>
+        <item>Item 1</item>
+    </string-array>
+
+    <string-array name="nama_member">
+        <item>Member 1</item>
+        <item>Member 2</item>
+        <item>Member 3</item>
+        <item>Member 4</item>
+    </string-array>
 </resources>
