@@ -23,7 +23,12 @@ public class EditorBorrowActivity extends AppCompatActivity {
     private Button btnSave;
     private Helper db = new Helper(this);
     String id, book_id, member_id, judul, nama, telp, email;
+
+    private HashMap<Integer, Integer> positionBookIdMap = new HashMap<>();
+    private HashMap<Integer, Integer> positionBorrowerIdMap = new HashMap<>();
+
     ArrayList<HashMap<String, String>> borrowData;
+    ArrayList<HashMap<String, String>> bookList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,28 +36,16 @@ public class EditorBorrowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editor_borrow);
 
         headlineBorrow = findViewById(R.id.txt_headline_borrowEditor);
-
         spinnerBook =  findViewById(R.id.spin_buku);
         spinnerMember = findViewById(R.id.spin_member);
-
         btnSave = findViewById(R.id.button_save);
 
-        //percobaan yang belum bisa
-        borrowData = db.getAllBorrows();
         populateSpinners();
 
-        id = getIntent().getStringExtra("id");
-        book_id = getIntent().getStringExtra("book_id");
-        member_id = getIntent().getStringExtra("member_id");
-//        judul = getIntent().getStringExtra("judul");
-//        nama = getIntent().getStringExtra("nama");
-//        telp = getIntent().getStringExtra("telp");
-//        email = getIntent().getStringExtra("email");
-
         if(id == null || id.equals("")) {
-            headlineBorrow.setText("Tambah Buku");
+            headlineBorrow.setText("Tambah Peminjaman");
         } else {
-            headlineBorrow.setText("Edit Buku");
+            headlineBorrow.setText("Edit Peminjaman");
 
             // Find the index of the item you want to set as selected in the Spinner
             int selectedBookPosition = findPositionOfBookInSpinner(Integer.parseInt(book_id));
@@ -77,23 +70,26 @@ public class EditorBorrowActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void save() {
-        if(String.valueOf(spinnerBook.getSelectedItem().toString()).equals("") || String.valueOf(spinnerMember.getSelectedItem().toString()).equals("")) {
+        if (String.valueOf(spinnerBook.getSelectedItem().toString()).equals("") || String.valueOf(spinnerMember.getSelectedItem().toString()).equals("")) {
             Toast.makeText(getApplicationContext(), "Silahkan isi semua data: ", Toast.LENGTH_SHORT).show();
         } else {
-            CustomItem selectedBook = (CustomItem) spinnerBook.getSelectedItem();
-            CustomItem selectedMember = (CustomItem) spinnerMember.getSelectedItem();
+            // Get the selected book and member from spinners
+            String selectedBookTitle = (String) spinnerBook.getSelectedItem();
+            String selectedMemberName = (String) spinnerMember.getSelectedItem();
 
-            int selectedBookId = selectedBook.getId();
-            int selectedMemberId = selectedMember.getId();
+            // Find the corresponding IDs for the selected book and member
+            int selectedBookId = positionBookIdMap.get(spinnerBook.getSelectedItemPosition());
+            int selectedMemberId = positionBorrowerIdMap.get(spinnerMember.getSelectedItemPosition());
 
+            // Call the database method to insert the borrow record
             db.insertBorrow(selectedBookId, selectedMemberId);
             finish();
         }
     }
+
 
     private  void edit() {
         if (String.valueOf(spinnerBook.getSelectedItem().toString()).equals("") || String.valueOf(spinnerMember.getSelectedItem().toString()).equals("")) {
@@ -111,33 +107,44 @@ public class EditorBorrowActivity extends AppCompatActivity {
     }
 
     private void populateSpinners() {
-        ArrayList<CustomItem> books = new ArrayList<>();
-        ArrayList<CustomItem> members = new ArrayList<>();
+        ArrayList<String> bookTitles = new ArrayList<>();
+        positionBookIdMap = new HashMap<>();
+        ArrayList<String> borrowerNames = new ArrayList<>();
+        positionBorrowerIdMap = new HashMap<>();
+        ArrayList<HashMap<String, String>> members = new ArrayList<>();
 
-        for (HashMap<String, String> borrow : borrowData) {
-            int bookId = Integer.parseInt(borrow.get("book_id"));
-            String bookTitle = borrow.get("judul");
-            books.add(new CustomItem(bookId, bookTitle));
-
-            int memberId = Integer.parseInt(borrow.get("member_id"));
-            String memberName = borrow.get("nama");
-            members.add(new CustomItem(memberId, memberName));
+        int position = 0;
+        for (HashMap<String, String> book : db.getAllBooks()) {
+            String title = book.get("judul");
+            int bookid = Integer.parseInt(book.get("id"));
+            if (title != null) {
+                bookTitles.add(title);
+                positionBookIdMap.put(position, bookid);
+            }
+            position++;
         }
 
-        // Ini yang BERHASIL
-        ArrayAdapter<CharSequence> bookAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.judul_buku, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> memberAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.nama_member, android.R.layout.simple_spinner_item);
+        position=0;
+        for (HashMap<String, String> member : db.getAllMembers()) {
+            String name = member.get("nama");
+            int memberid = Integer.parseInt(member.get("id"));
+            if (name != null) {
+                borrowerNames.add(name);
+                positionBorrowerIdMap.put(position, memberid);
+            }
+            position++;
+        }
 
-        // Ini yang GAGAL
-        // ArrayAdapter<CustomItem> bookAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, books);
-        // ArrayAdapter<CustomItem> memberAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, members);
-
+        // Set Adapter
+        ArrayAdapter<String> bookAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, bookTitles);
         bookAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        memberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spinnerBook.setAdapter(bookAdapter);
+
+        ArrayAdapter<String> memberAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, borrowerNames);
+        memberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMember.setAdapter(memberAdapter);
     }
+
 
     private int findPositionOfBookInSpinner(int bookId) {
         for (int i = 0; i < spinnerBook.getCount(); i++) {

@@ -1,5 +1,6 @@
 package com.example.uas_pwdm.helper;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,6 +19,7 @@ public class Helper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // ini ko
         final String SQL_CREATE_TABLE_BOOK = "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, judul TEXT, penulis TEXT, tahun TEXT);";
         final String SQL_CREATE_TABLE_MEMBER = "CREATE TABLE members (id INTEGER PRIMARY KEY AUTOINCREMENT, nama TEXT, no_telp TEXT, email TEXT, alamat TEXT);";
         final String SQL_CREATE_TABLE_BORROW = "CREATE TABLE borrows (id INTEGER PRIMARY KEY AUTOINCREMENT, book_id INT, member_id INT, FOREIGN KEY (book_id) REFERENCES books(id), FOREIGN KEY (member_id) REFERENCES members(id));";
@@ -52,6 +54,8 @@ public class Helper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        System.out.println("Masuk");
+        System.out.println(list);
         return list;
     }
 
@@ -146,9 +150,12 @@ public class Helper extends SQLiteOpenHelper {
     // QUERY untuk INSERT BORROW
     public void insertBorrow(int book, int member){
         SQLiteDatabase db = this.getWritableDatabase();
-        String QUERY = "INSERT INTO borrows (book_id, member_id) VALUES (book, member);";
-        db.execSQL(QUERY);
+        ContentValues values = new ContentValues();
+        values.put("book_id", book);
+        values.put("member_id", member);
+        db.insert("borrows", null, values);
     }
+
 
     // QUERY untuk UPDATE BORROW
     public void updateBorrow(int id, int book, int member){
