@@ -118,8 +118,8 @@ public class BorrowFragment extends Fragment {
                                 intent.putExtra("id", id);
                                 intent.putExtra("book_id", book_id);
                                 intent.putExtra("member_id", member_id);
-//                                intent.putExtra("judul", judul);
-//                                intent.putExtra("nama", nama);
+                                intent.putExtra("judul", judul);
+                                intent.putExtra("nama", nama);
 //                                intent.putExtra("telp", telp);
 //                                intent.putExtra("email", email);
                                 startActivity(intent);

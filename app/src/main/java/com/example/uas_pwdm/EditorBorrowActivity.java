@@ -39,6 +39,9 @@ public class EditorBorrowActivity extends AppCompatActivity {
         spinnerBook =  findViewById(R.id.spin_buku);
         spinnerMember = findViewById(R.id.spin_member);
         btnSave = findViewById(R.id.button_save);
+        id = getIntent().getStringExtra("id");
+        book_id = getIntent().getStringExtra("book_id");
+        member_id = getIntent().getStringExtra("member_id");
 
         populateSpinners();
 
@@ -48,12 +51,12 @@ public class EditorBorrowActivity extends AppCompatActivity {
             headlineBorrow.setText("Edit Peminjaman");
 
             // Find the index of the item you want to set as selected in the Spinner
-            int selectedBookPosition = findPositionOfBookInSpinner(Integer.parseInt(book_id));
-            int selectedMemberPosition = findPositionOfMemberInSpinner(Integer.parseInt(member_id));
+//            int selectedBookPosition = findPositionOfBookInSpinner(Integer.parseInt(book_id));
+//            int selectedMemberPosition = findPositionOfMemberInSpinner(Integer.parseInt(member_id));
 
             // Set the selected item in the Spinner
-            spinnerBook.setSelection(selectedBookPosition);
-            spinnerMember.setSelection(selectedMemberPosition);
+            spinnerBook.setSelection(Integer.parseInt(book_id));
+            spinnerMember.setSelection(Integer.parseInt(member_id));
         }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -95,11 +98,13 @@ public class EditorBorrowActivity extends AppCompatActivity {
         if (String.valueOf(spinnerBook.getSelectedItem().toString()).equals("") || String.valueOf(spinnerMember.getSelectedItem().toString()).equals("")) {
             Toast.makeText(getApplicationContext(), "Silahkan isi semua data!", Toast.LENGTH_SHORT).show();
         } else {
-            CustomItem selectedBook = (CustomItem) spinnerBook.getSelectedItem();
-            CustomItem selectedMember = (CustomItem) spinnerMember.getSelectedItem();
+            // Get the selected book and member from spinners
+            String selectedBookTitle = (String) spinnerBook.getSelectedItem();
+            String selectedMemberName = (String) spinnerMember.getSelectedItem();
 
-            int selectedBookId = selectedBook.getId();
-            int selectedMemberId = selectedMember.getId();
+            // Find the corresponding IDs for the selected book and member
+            int selectedBookId = positionBookIdMap.get(spinnerBook.getSelectedItemPosition());
+            int selectedMemberId = positionBorrowerIdMap.get(spinnerMember.getSelectedItemPosition());
 
             db.updateBorrow(Integer.parseInt(id), selectedBookId, selectedMemberId);
             finish();
@@ -146,23 +151,23 @@ public class EditorBorrowActivity extends AppCompatActivity {
     }
 
 
-    private int findPositionOfBookInSpinner(int bookId) {
-        for (int i = 0; i < spinnerBook.getCount(); i++) {
-            CustomItem item = (CustomItem) spinnerBook.getItemAtPosition(i);
-            if (item.getId() == bookId) {
-                return i;
-            }
-        }
-        return 0; // Default position if not found
-    }
-
-    private int findPositionOfMemberInSpinner(int memberId) {
-        for (int i = 0; i < spinnerMember.getCount(); i++) {
-            CustomItem item = (CustomItem) spinnerMember.getItemAtPosition(i);
-            if (item.getId() == memberId) {
-                return i;
-            }
-        }
-        return 0; // Default position if not found
-    }
+//    private int findPositionOfBookInSpinner(int bookId) {
+//        for (int i = 0; i < spinnerBook.getCount(); i++) {
+//            CustomItem item = (CustomItem) spinnerBook.getItemAtPosition(i);
+//            if (item.getId() == bookId) {
+//                return i;
+//            }
+//        }
+//        return 0; // Default position if not found
+//    }
+//
+//    private int findPositionOfMemberInSpinner(int memberId) {
+//        for (int i = 0; i < spinnerMember.getCount(); i++) {
+//            CustomItem item = (CustomItem) spinnerMember.getItemAtPosition(i);
+//            if (item.getId() == memberId) {
+//                return i;
+//            }
+//        }
+//        return 0; // Default position if not found
+//    }
 }
