@@ -57,8 +57,9 @@ public class BorrowAdapter extends BaseAdapter {
             TextView email = convertView.findViewById(R.id.txt_email_borrow);
             BorrowData data = lists.get(position);
             judul.setText(data.getJudul());
-            judul.setText(data.getBook_id());
+            id_book.setText(data.getBook_id());
             nama.setText(data.getNama());
+            id_member.setText(data.getMember_id());
             telp.setText(data.getTelp());
             email.setText(data.getEmail());
         }
