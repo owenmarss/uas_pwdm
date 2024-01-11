@@ -50,13 +50,13 @@ public class EditorBorrowActivity extends AppCompatActivity {
         } else {
             headlineBorrow.setText("Edit Peminjaman");
 
-            // Find the index of the item you want to set as selected in the Spinner
-//            int selectedBookPosition = findPositionOfBookInSpinner(Integer.parseInt(book_id));
-//            int selectedMemberPosition = findPositionOfMemberInSpinner(Integer.parseInt(member_id));
+//          Find the index of the item you want to set as selected in the Spinner
+            int selectedBookPosition = findPositionOfBookInSpinner(Integer.parseInt(book_id));
+            int selectedMemberPosition = findPositionOfMemberInSpinner(Integer.parseInt(member_id));
 
             // Set the selected item in the Spinner
-            spinnerBook.setSelection(Integer.parseInt(book_id));
-            spinnerMember.setSelection(Integer.parseInt(member_id));
+            spinnerBook.setSelection(selectedBookPosition);
+            spinnerMember.setSelection(selectedMemberPosition);
         }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -151,23 +151,23 @@ public class EditorBorrowActivity extends AppCompatActivity {
     }
 
 
-//    private int findPositionOfBookInSpinner(int bookId) {
-//        for (int i = 0; i < spinnerBook.getCount(); i++) {
-//            CustomItem item = (CustomItem) spinnerBook.getItemAtPosition(i);
-//            if (item.getId() == bookId) {
-//                return i;
-//            }
-//        }
-//        return 0; // Default position if not found
-//    }
-//
-//    private int findPositionOfMemberInSpinner(int memberId) {
-//        for (int i = 0; i < spinnerMember.getCount(); i++) {
-//            CustomItem item = (CustomItem) spinnerMember.getItemAtPosition(i);
-//            if (item.getId() == memberId) {
-//                return i;
-//            }
-//        }
-//        return 0; // Default position if not found
-//    }
+    private int findPositionOfBookInSpinner(int bookId) {
+        for (int i = 0; i < spinnerBook.getCount(); i++) {
+            CustomItem item = (CustomItem) spinnerBook.getItemAtPosition(i);
+            if (item.getId() == bookId) {
+                return i;
+            }
+        }
+        return 0; // Default position if not found
+    }
+
+    private int findPositionOfMemberInSpinner(int memberId) {
+        for (int i = 0; i < spinnerMember.getCount(); i++) {
+            CustomItem item = (CustomItem) spinnerMember.getItemAtPosition(i);
+            if (item.getId() == memberId) {
+                return i;
+            }
+        }
+        return 0; // Default position if not found
+    }
 }
